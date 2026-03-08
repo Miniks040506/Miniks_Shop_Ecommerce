@@ -34,9 +34,7 @@ build/
 
 ### BACKEND ###
 MiniksShop_Be/target/
-MiniksShop_Be/.idea/
-MiniksShop_Be/*.iml
-MiniksShop_Be/src/main/resourses/application.properties
+MiniksShop_Be/src/main/resources/application.properties
 
 ### System ###
 .DS_Store
