@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### BACKEND ###
+MiniksShop_Be/target/
+MiniksShop_Be/.idea/
+MiniksShop_Be/*.iml
+MiniksShop_Be/src/main/resourses/application.properties
+
+### System ###
+.DS_Store
+*.log

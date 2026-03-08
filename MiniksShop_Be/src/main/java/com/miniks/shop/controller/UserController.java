@@ -19,7 +19,7 @@ public class UserController {
 
         User user = userService.findUserByJwtToken(jwt);
 
-        return null;
+        return ResponseEntity.ok(user);
     }
 
 }
