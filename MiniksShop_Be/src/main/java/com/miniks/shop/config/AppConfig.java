@@ -48,7 +48,7 @@ public class AppConfig {
                 corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
                 corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                 corsConfiguration.setAllowCredentials(true);
-                corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
+                corsConfiguration.setExposedHeaders(Collections.singletonList(JWT_CONSTANT.JWT_HEADER));
                 corsConfiguration.setMaxAge(3600L);
 
                 return corsConfiguration;

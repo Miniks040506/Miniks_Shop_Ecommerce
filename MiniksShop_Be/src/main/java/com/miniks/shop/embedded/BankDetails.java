@@ -13,5 +13,6 @@ public class BankDetails {
     private String accountHolderName;
     private String bankName;
 //    private String branchName;
-    private String swiftCode;
+//    private String swiftCode;
+    private String bankCode;
 }
