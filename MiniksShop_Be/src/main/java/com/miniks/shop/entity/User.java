@@ -2,7 +2,7 @@ package com.miniks.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.miniks.shop.domain.UserRole;
+import com.miniks.shop.domain.USER_ROLE;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,7 +36,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role = UserRole.ROLE_CUSTOMER;
+    private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "user_address",

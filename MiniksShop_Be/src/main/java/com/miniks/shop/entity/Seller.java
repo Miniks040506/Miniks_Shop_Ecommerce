@@ -1,7 +1,7 @@
 package com.miniks.shop.entity;
 
 import com.miniks.shop.domain.AccountStatus;
-import com.miniks.shop.domain.UserRole;
+import com.miniks.shop.domain.USER_ROLE;
 import com.miniks.shop.embedded.BankDetails;
 import com.miniks.shop.embedded.BusinessDetails;
 import jakarta.persistence.*;
@@ -43,7 +43,7 @@ public class Seller {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role = UserRole.ROLE_SELLER;
+    private USER_ROLE role = USER_ROLE.ROLE_SELLER;
 
     @Column(name = "is_email_verified", nullable = false)
     private boolean isEmailVerified = false;

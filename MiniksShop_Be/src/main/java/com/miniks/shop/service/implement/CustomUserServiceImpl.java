@@ -1,6 +1,6 @@
 package com.miniks.shop.service.implement;
 
-import com.miniks.shop.domain.UserRole;
+import com.miniks.shop.domain.USER_ROLE;
 import com.miniks.shop.entity.Seller;
 import com.miniks.shop.entity.User;
 import com.miniks.shop.repository.SellerRepository;
@@ -48,9 +48,9 @@ public class CustomUserServiceImpl implements UserDetailsService {
         throw new UsernameNotFoundException("User or seller not found with email - " + username);
     }
 
-    private UserDetails buildUserDetail(String email, String password, UserRole role) {
+    private UserDetails buildUserDetail(String email, String password, USER_ROLE role) {
         if (role == null) {
-            role = UserRole.ROLE_CUSTOMER;
+            role = USER_ROLE.ROLE_CUSTOMER;
         }
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

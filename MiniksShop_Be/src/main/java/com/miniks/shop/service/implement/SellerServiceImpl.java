@@ -2,7 +2,7 @@ package com.miniks.shop.service.implement;
 
 import com.miniks.shop.config.JwtProvider;
 import com.miniks.shop.domain.AccountStatus;
-import com.miniks.shop.domain.UserRole;
+import com.miniks.shop.domain.USER_ROLE;
 import com.miniks.shop.entity.Address;
 import com.miniks.shop.entity.Seller;
 import com.miniks.shop.repository.AddressRepository;
@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +48,7 @@ public class SellerServiceImpl implements SellerService {
         newSeller.setSellerName(seller.getSellerName());
         newSeller.setAddress(seller.getAddress());
         newSeller.setTaxCode(seller.getTaxCode());
-        newSeller.setRole(UserRole.ROLE_SELLER);
+        newSeller.setRole(USER_ROLE.ROLE_SELLER);
         newSeller.setMobile(seller.getMobile());
         newSeller.setBankDetails(seller.getBankDetails());
         newSeller.setBusinessDetails(seller.getBusinessDetails());
