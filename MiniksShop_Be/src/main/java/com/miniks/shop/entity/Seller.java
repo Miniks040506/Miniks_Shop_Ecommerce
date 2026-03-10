@@ -45,7 +45,7 @@ public class Seller {
     @Column(nullable = false)
     private USER_ROLE role = USER_ROLE.ROLE_SELLER;
 
-    @Column(name = "is_email_verified", nullable = false)
+    @Column(name = "is_email_verified")
     private boolean isEmailVerified = false;
 
     private AccountStatus accountStatus = AccountStatus.PENDING_VERIFICATION;

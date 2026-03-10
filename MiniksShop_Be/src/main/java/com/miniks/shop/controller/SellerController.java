@@ -1,9 +1,11 @@
 package com.miniks.shop.controller;
 
+import com.miniks.shop.config.JwtProvider;
+import com.miniks.shop.domain.AccountStatus;
 import com.miniks.shop.entity.Seller;
 import com.miniks.shop.entity.VerificationCode;
+import com.miniks.shop.exception.SellerException;
 import com.miniks.shop.repository.VerificationCodeRepository;
-import com.miniks.shop.request.LoginOtpRequest;
 import com.miniks.shop.request.LoginRequest;
 import com.miniks.shop.response.ApiResponse;
 import com.miniks.shop.response.AuthResponse;
@@ -17,9 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("sellers")
+@RequestMapping("/sellers")
 public class SellerController {
 
     private final SellerService sellerService;
@@ -60,12 +64,12 @@ public class SellerController {
 
         Seller seller = sellerService.verifyEmail(verificationCode.getEmail(), otp);
 
-        return new ResponseEntity<>(seller, HttpStatus.OK);
+        return ResponseEntity.ok(seller);
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Seller> createSellerHandler(
-            @RequestBody Seller seller) throws Exception, MessagingException {
+            @RequestBody Seller seller) throws SellerException, MessagingException {
 
         Seller savedSeller = sellerService.createSeller(seller);
 
@@ -85,7 +89,76 @@ public class SellerController {
         emailService.sendVerificationOtpEmail(seller.getEmail(),
                 verificationCode.getOtp(), subject, text + frontend_url);
 
-        return new  ResponseEntity<>(savedSeller, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedSeller, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Seller> getSellerHandler(@PathVariable Long id) throws SellerException {
+
+        Seller seller = sellerService.getSellerById(id);
+
+        return ResponseEntity.ok(seller);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Seller> getSellerProfileHandler(
+            @RequestHeader("Authorization") String jwtToken
+    ) throws SellerException {
+
+//        String email = jwtProvider.getEmailFromJwtToken(jwtToken);
+//
+//        Seller seller = sellerService.getSellerByEmail(email);
+
+        Seller seller = sellerService.getSellerProfile(jwtToken);
+
+        return ResponseEntity.ok(seller);
+    }
+
+//    @GetMapping("/report")
+//    public ResponseEntity<SellerReport> getSellerReportHandler(
+//            @RequestHeader("Authorization")  String jwtToken
+//    ) throws Exception {
+//
+////        String email = jwtProvider.getEmailFromJwtToken(jwtToken);
+////
+////        Seller seller = sellerService.getSellerByEmail(email);
+//
+//        Seller seller = sellerService.getSellerProfile(jwtToken);
+//
+
+    /// /        SellerReport report =
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+    @GetMapping
+    public ResponseEntity<List<Seller>> getAllSellersHandler(
+            @RequestParam(required = false) AccountStatus status
+    ) {
+
+        List<Seller> sellers = sellerService.getAllSellers(status);
+
+        return ResponseEntity.ok(sellers);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Seller> updateSellerHandler(
+            @RequestHeader("Authorization") String jwtToken,
+            @RequestBody Seller seller
+    ) throws SellerException {
+
+        Seller profile = sellerService.getSellerProfile(jwtToken);
+
+        Seller updatedSeller = sellerService.updateSeller(profile.getId(), seller);
+
+        return ResponseEntity.ok(updatedSeller);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteSellerHandler(@PathVariable Long id) throws SellerException {
+
+        sellerService.deleteSeller(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -5,6 +5,7 @@ import com.miniks.shop.domain.AccountStatus;
 import com.miniks.shop.domain.USER_ROLE;
 import com.miniks.shop.entity.Address;
 import com.miniks.shop.entity.Seller;
+import com.miniks.shop.exception.SellerException;
 import com.miniks.shop.repository.AddressRepository;
 import com.miniks.shop.repository.SellerRepository;
 import com.miniks.shop.service.SellerService;
@@ -24,7 +25,7 @@ public class SellerServiceImpl implements SellerService {
     private final AddressRepository addressRepository;
 
     @Override
-    public Seller getSellerProfile(String jwtToken) throws Exception {
+    public Seller getSellerProfile(String jwtToken) throws SellerException {
 
         String email = jwtProvider.getEmailFromJwtToken(jwtToken);
 
@@ -32,12 +33,12 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller createSeller(Seller seller) throws Exception {
+    public Seller createSeller(Seller seller) throws SellerException {
 
         Seller sellerExist = sellerRepository.findByEmail(seller.getEmail());
 
         if (sellerExist != null) {
-            throw new Exception("Seller already exist, used different email");
+            throw new SellerException("Seller already existed, used different email");
         }
 
         Address address = addressRepository.save(seller.getAddress());
@@ -46,7 +47,7 @@ public class SellerServiceImpl implements SellerService {
         newSeller.setEmail(seller.getEmail());
         newSeller.setPassword(passwordEncoder.encode(seller.getPassword()));
         newSeller.setSellerName(seller.getSellerName());
-        newSeller.setAddress(seller.getAddress());
+        newSeller.setAddress(address);
         newSeller.setTaxCode(seller.getTaxCode());
         newSeller.setRole(USER_ROLE.ROLE_SELLER);
         newSeller.setMobile(seller.getMobile());
@@ -57,7 +58,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller getSellerById(Long id) throws Exception {
+    public Seller getSellerById(Long id) throws SellerException {
 
 //        Optional<Seller> seller = sellerRepository.findById(id);
 //
@@ -68,16 +69,16 @@ public class SellerServiceImpl implements SellerService {
 
         return sellerRepository.findById(id)
                 .orElseThrow(() ->
-                        new Exception("Seller not found with id - " + id));
+                        new SellerException("Seller not found with id - " + id));
     }
 
     @Override
-    public Seller getSellerByEmail(String email) throws Exception {
+    public Seller getSellerByEmail(String email) throws SellerException {
 
         Seller seller = sellerRepository.findByEmail(email);
 
         if (seller == null) {
-            throw new Exception("Seller not found with email -" + email);
+            throw new SellerException("Seller not found with email -" + email);
         }
 
         return seller;
@@ -90,7 +91,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller updateSeller(Long id, Seller seller) throws Exception {
+    public Seller updateSeller(Long id, Seller seller) throws SellerException {
 
         Seller existingSeller = this.getSellerById(id);
 
@@ -153,7 +154,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void deleteSeller(Long id) throws Exception {
+    public void deleteSeller(Long id) throws SellerException {
 
         Seller seller = getSellerById(id);
 
@@ -162,7 +163,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller verifyEmail(String email, String otp) throws Exception {
+    public Seller verifyEmail(String email, String otp) throws SellerException {
 
         Seller seller = getSellerByEmail(email);
 
@@ -172,7 +173,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws Exception {
+    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws SellerException {
 
         Seller seller = getSellerById(sellerId);
 
