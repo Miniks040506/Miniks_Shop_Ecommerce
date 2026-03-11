@@ -9,22 +9,25 @@ import com.miniks.shop.repository.ProductRepository;
 import com.miniks.shop.request.CreateProductRequest;
 import com.miniks.shop.service.ProductService;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    ProductRepository productRepository;
-    CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Product createProduct(CreateProductRequest request, Seller seller) {
@@ -112,8 +115,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProduct() {
-        return List.of();
+    public List<Product> searchProducts(String query) {
+
+        return productRepository.searchProduct(query);
     }
 
     @Override

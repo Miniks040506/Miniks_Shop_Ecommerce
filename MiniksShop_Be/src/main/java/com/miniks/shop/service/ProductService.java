@@ -19,13 +19,13 @@ public interface ProductService {
 
     Product findProductById(Long productId) throws ProductException;
 
-    List<Product> searchProduct();
+    List<Product> searchProducts(String query);
 
     Page<Product> getAllProducts(
             String category,
             String brand,
             String color,
-            String sizes,
+            String size,
             Integer minPrice,
             Integer maxPrice,
             Integer minDiscount,

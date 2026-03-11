@@ -41,10 +41,12 @@ public class Product {
     private int numRatings;
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
