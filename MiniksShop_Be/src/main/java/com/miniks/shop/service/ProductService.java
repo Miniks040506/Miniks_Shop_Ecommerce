@@ -2,6 +2,7 @@ package com.miniks.shop.service;
 
 import com.miniks.shop.entity.Product;
 import com.miniks.shop.entity.Seller;
+import com.miniks.shop.exception.ProductException;
 import com.miniks.shop.request.CreateProductRequest;
 import org.springframework.data.domain.Page;
 
@@ -12,11 +13,11 @@ public interface ProductService {
 
     Product createProduct(CreateProductRequest request, Seller seller);
 
-    void deleteProduct(Long productId);
+    void deleteProduct(Long productId) throws ProductException;
 
-    Product updateProduct(Long productId, Product product);
+    Product updateProduct(Long productId, Product product) throws ProductException;
 
-    Product findProductById(Long productId);
+    Product findProductById(Long productId) throws ProductException;
 
     List<Product> searchProduct();
 
