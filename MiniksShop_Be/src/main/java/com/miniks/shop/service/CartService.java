@@ -16,4 +16,6 @@ public interface CartService {
 
     Cart findUserCart(User user);
 
+    Cart updateCartInfo(Cart cart);
+
 }

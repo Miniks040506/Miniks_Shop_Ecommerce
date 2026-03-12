@@ -9,6 +9,7 @@ import com.miniks.shop.repository.CartRepository;
 import com.miniks.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,39 +19,51 @@ public class CartServiceImpl implements CartService {
     private final CartItemRepository cartItemRepository;
 
     @Override
+    @Transactional
     public CartItem addCartItem(User user, Product product, String size, int quantity) {
 
         Cart cart = findUserCart(user);
 
         CartItem isPresent = cartItemRepository.findByCartAndProductAndSize(cart, product, size);
 
+        CartItem cartItem = null;
+
         if (isPresent == null) {
-            CartItem cartItem = new CartItem();
+            cartItem = new CartItem();
 
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
             cartItem.setUserId(user.getId());
             cartItem.setSize(size);
 
-            double totalPrice = quantity * product.getSellingPrice();
-            cartItem.setSellingPrice(totalPrice);
-
             cart.getCartItems().add(cartItem);
             cartItem.setCart(cart);
 
-            return cartItemRepository.save(cartItem);
+        } else {
+            cartItem = isPresent;
+
+            cartItem.setQuantity(quantity + cartItem.getQuantity());
         }
 
-        return isPresent;
+        double totalSellingPrice = cartItem.getQuantity() * product.getSellingPrice();
+        cartItem.setSellingPrice(totalSellingPrice);
+
+        double totalMrpPrice = cartItem.getQuantity() * product.getMrpPrice();
+        cartItem.setMrpPrice(totalMrpPrice);
+
+        this.updateCartInfo(cart);
+
+        return cartItemRepository.save(cartItem);
     }
 
     @Override
-    public Cart findUserCart(User user) {
+    @Transactional
+    public Cart updateCartInfo(Cart cart) {
 
-        Cart cart = cartRepository.findByCartId(user.getId());
+//        Cart cart = cartRepository.findByUserId(user.getId());
 
-        int totalPrice = 0;
-        int totalDiscountedPrice = 0;
+        double totalPrice = 0;
+        double totalDiscountedPrice = 0;
         int totalItem = 0;
 
         for (CartItem cartItem : cart.getCartItems()) {
@@ -67,10 +80,19 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Cart findUserCart(User user) {
+
+        Cart cart = cartRepository.findByUserId(user.getId());
+
+        return cart;
+    }
+
     private int calculateDiscountPercentage(double mrpPrice, double sellingPrice) {
 
         if (mrpPrice <= 0) {
-            throw new IllegalArgumentException("Actual price must be greater than 0.");
+            return 0;
         }
 
         double discount = mrpPrice - sellingPrice;

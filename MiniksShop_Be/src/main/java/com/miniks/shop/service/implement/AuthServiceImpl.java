@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
     private final SellerRepository sellerRepository;
 
     @Override
+    @Transactional
     public void sentLoginOtp(String email, USER_ROLE role) throws Exception {
         String SIGNING_PREFIX = "signing_";
 
@@ -91,6 +93,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public String createUser(SignupRequest request) throws Exception {
 
         VerificationCode verificationCode = verificationCodeRepository.findByEmail(request.getEmail());
@@ -126,6 +129,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public AuthResponse SigningAccount(LoginRequest request) throws Exception {
 
         String username = request.getEmail();

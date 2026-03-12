@@ -12,6 +12,7 @@ import com.miniks.shop.service.SellerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class SellerServiceImpl implements SellerService {
     private final AddressRepository addressRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Seller getSellerProfile(String jwtToken) throws SellerException {
 
         String email = jwtProvider.getEmailFromJwtToken(jwtToken);
@@ -33,6 +35,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional
     public Seller createSeller(Seller seller) throws SellerException {
 
         Seller sellerExist = sellerRepository.findByEmail(seller.getEmail());
@@ -58,6 +61,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Seller getSellerById(Long id) throws SellerException {
 
 //        Optional<Seller> seller = sellerRepository.findById(id);
@@ -73,6 +77,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Seller getSellerByEmail(String email) throws SellerException {
 
         Seller seller = sellerRepository.findByEmail(email);
@@ -85,12 +90,14 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Seller> getAllSellers(AccountStatus status) {
 
         return sellerRepository.findByAccountStatus(status);
     }
 
     @Override
+    @Transactional
     public Seller updateSeller(Long id, Seller seller) throws SellerException {
 
         Seller existingSeller = this.getSellerById(id);
@@ -154,6 +161,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional
     public void deleteSeller(Long id) throws SellerException {
 
         Seller seller = getSellerById(id);
@@ -163,6 +171,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional
     public Seller verifyEmail(String email, String otp) throws SellerException {
 
         Seller seller = getSellerByEmail(email);
@@ -173,6 +182,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    @Transactional
     public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws SellerException {
 
         Seller seller = getSellerById(sellerId);

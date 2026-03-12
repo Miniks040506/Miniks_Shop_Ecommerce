@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public Product createProduct(CreateProductRequest request, Seller seller) {
 
         Category categoryL1 = categoryRepository.findByCategoryId(request.getCategoryL1());
@@ -89,6 +91,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long productId) throws ProductException {
 
         Product product = findProductById(productId);
@@ -97,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Long productId, Product product) throws ProductException {
 
         findProductById(productId);
@@ -107,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product findProductById(Long productId) throws ProductException {
 
         return productRepository.findById(productId)
@@ -115,12 +120,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> searchProducts(String query) {
 
         return productRepository.searchProduct(query);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Product> getAllProducts(String category, String brand, String colors,
                                         String sizes, Integer minPrice, Integer maxPrice,
                                         Integer minDiscount, String sort, String stock,
@@ -192,6 +199,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> getProductsBySellerId(Long sellerId) {
 
         return productRepository.findBySellerId(sellerId);
