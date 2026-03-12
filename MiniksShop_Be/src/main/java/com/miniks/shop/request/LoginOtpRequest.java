@@ -1,9 +1,13 @@
 package com.miniks.shop.request;
 
 import com.miniks.shop.domain.USER_ROLE;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginOtpRequest {
 
     private String email;

@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
+public class PaymentLinkResponse {
 
-    private String message;
+    private String paymentLinkUrl;
+    private String paymentLinkId;
 
 }

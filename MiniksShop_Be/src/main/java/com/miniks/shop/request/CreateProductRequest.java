@@ -1,10 +1,14 @@
 package com.miniks.shop.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateProductRequest {
 
     private String title;

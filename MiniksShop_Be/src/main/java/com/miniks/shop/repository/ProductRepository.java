@@ -16,14 +16,21 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
 
 //    Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
-    List<Product> findBySellerId(Long id);
+    @Query("SELECT DISTINCT p FROM Product p " +
+            "JOIN FETCH p.category " +
+            "JOIN FETCH p.seller " +
+            "LEFT JOIN FETCH p.images " +
+            "WHERE p.seller.id = :id"
+    )
+    List<Product> findBySellerId(@Param("id") Long id);
 
-    @Query("SELECT p FROM Product p " +
-            "WHERE (:query IS NULL " +
-            "OR LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))) " +
-            "OR (:query IS NULL " +
-            "OR LOWER(p.category.name) LIKE LOWER(CONCAT('%', :query, '%')))"
-            )
+    @Query("SELECT DISTINCT p FROM Product p " +
+            "JOIN FETCH p.category c " +
+            "JOIN FETCH p.seller s " +
+            "LEFT JOIN FETCH p.images " +
+            "WHERE :query IS NULL OR " +
+            "LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "LOWER(c.name) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<Product> searchProduct(@Param("query") String query);
 
 }

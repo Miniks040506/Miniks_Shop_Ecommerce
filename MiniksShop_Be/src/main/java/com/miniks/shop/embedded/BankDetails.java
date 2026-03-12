@@ -1,6 +1,7 @@
 package com.miniks.shop.embedded;
 
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class BankDetails {
     private String accountNumber;
     private String accountHolderName;
