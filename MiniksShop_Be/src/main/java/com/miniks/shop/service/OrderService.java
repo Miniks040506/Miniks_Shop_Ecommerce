@@ -12,14 +12,12 @@ public interface OrderService {
 
     Order findOrderById(long id) throws Exception;
 
-    List<Order> userOrderHistory(Long userId);
+    List<Order> findUserOrderHistory(Long userId);
 
-    List<Order> sellersOrder(Long sellerId);
+    List<Order> getSellerOrders(Long sellerId);
 
     Order updateOrderStatus(Long orderId, OrderStatus status) throws Exception;
 
     Order cancelOrder(Long orderId, User user) throws Exception;
-
-    OrderItem findById(Long id) throws Exception;
 
 }

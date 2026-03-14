@@ -26,9 +26,9 @@ public class Product {
     private String description;
 
     //mrp: maximum retail price: gia ban le toi da
-    private double mrpPrice;
+    private Long mrpPrice;
 
-    private double sellingPrice;
+    private Long sellingPrice;
 
     private int discountPercent;
 

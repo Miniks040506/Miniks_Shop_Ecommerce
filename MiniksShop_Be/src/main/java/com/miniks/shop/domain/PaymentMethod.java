@@ -6,5 +6,6 @@ public enum PaymentMethod {
     ZALOPAY,
     BANK_TRANSFER,
     PAYOS,
-    CASH_ON_DELIVERY
+    CASH_ON_DELIVERY,
+    RAZORPAY
 }

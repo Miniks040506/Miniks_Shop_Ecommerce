@@ -13,8 +13,8 @@ public class CreateProductRequest {
 
     private String title;
     private String description;
-    private double mrpPrice;
-    private double sellingPrice;
+    private long mrpPrice;
+    private long sellingPrice;
     private String color;
     private List<String> images;
     private String categoryL1;

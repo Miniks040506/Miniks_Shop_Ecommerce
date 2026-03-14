@@ -45,10 +45,10 @@ public class CartServiceImpl implements CartService {
             cartItem.setQuantity(quantity + cartItem.getQuantity());
         }
 
-        double totalSellingPrice = cartItem.getQuantity() * product.getSellingPrice();
+        long totalSellingPrice = cartItem.getQuantity() * product.getSellingPrice();
         cartItem.setSellingPrice(totalSellingPrice);
 
-        double totalMrpPrice = cartItem.getQuantity() * product.getMrpPrice();
+        long totalMrpPrice = cartItem.getQuantity() * product.getMrpPrice();
         cartItem.setMrpPrice(totalMrpPrice);
 
         this.updateCartInfo(cart);
@@ -62,8 +62,8 @@ public class CartServiceImpl implements CartService {
 
 //        Cart cart = cartRepository.findByUserId(user.getId());
 
-        double totalPrice = 0;
-        double totalDiscountedPrice = 0;
+        long totalPrice = 0;
+        long totalDiscountedPrice = 0;
         int totalItem = 0;
 
         for (CartItem cartItem : cart.getCartItems()) {

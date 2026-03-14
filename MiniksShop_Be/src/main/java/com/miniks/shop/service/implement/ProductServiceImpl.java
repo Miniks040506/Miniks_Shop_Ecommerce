@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     public Page<Product> getAllProducts(String category, String brand, String colors,
-                                        String sizes, Integer minPrice, Integer maxPrice,
+                                        String sizes, Long minPrice, Long maxPrice,
                                         Integer minDiscount, String sort, String stock,
                                         Integer pageNumber) {
 

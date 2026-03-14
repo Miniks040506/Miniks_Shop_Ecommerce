@@ -3,6 +3,7 @@ package com.miniks.shop.controller;
 import com.miniks.shop.config.JwtProvider;
 import com.miniks.shop.domain.AccountStatus;
 import com.miniks.shop.entity.Seller;
+import com.miniks.shop.entity.SellerReport;
 import com.miniks.shop.entity.VerificationCode;
 import com.miniks.shop.exception.SellerException;
 import com.miniks.shop.repository.VerificationCodeRepository;
@@ -11,6 +12,7 @@ import com.miniks.shop.response.ApiResponse;
 import com.miniks.shop.response.AuthResponse;
 import com.miniks.shop.service.AuthService;
 import com.miniks.shop.service.EmailService;
+import com.miniks.shop.service.SellerReportService;
 import com.miniks.shop.service.SellerService;
 import com.miniks.shop.utils.OtpUtil;
 import jakarta.mail.MessagingException;
@@ -30,6 +32,7 @@ public class SellerController {
     private final VerificationCodeRepository verificationCodeRepository;
     private final AuthService authService;
     private final EmailService emailService;
+    private final SellerReportService sellerReportService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> loginHandler(
@@ -114,22 +117,23 @@ public class SellerController {
         return ResponseEntity.ok(seller);
     }
 
-//    @GetMapping("/report")
-//    public ResponseEntity<SellerReport> getSellerReportHandler(
-//            @RequestHeader("Authorization")  String jwtToken
-//    ) throws Exception {
-//
-////        String email = jwtProvider.getEmailFromJwtToken(jwtToken);
-////
-////        Seller seller = sellerService.getSellerByEmail(email);
-//
-//        Seller seller = sellerService.getSellerProfile(jwtToken);
-//
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReportHandler(
+            @RequestHeader("Authorization") String jwtToken
+    ) throws Exception {
 
-    /// /        SellerReport report =
+//        String email = jwtProvider.getEmailFromJwtToken(jwtToken);
 //
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+//        Seller seller = sellerService.getSellerByEmail(email);
+
+        Seller seller = sellerService.getSellerProfile(jwtToken);
+
+
+        SellerReport report = sellerReportService.getSellerReport(seller);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<Seller>> getAllSellersHandler(
             @RequestParam(required = false) AccountStatus status

@@ -27,11 +27,11 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
 
-    private double totalSellingPrice;
+    private Long totalSellingPrice;
 
     private int totalItem;
 
-    private double totalMrpPrice;
+    private Long totalMrpPrice;
 
     private int discount;
 

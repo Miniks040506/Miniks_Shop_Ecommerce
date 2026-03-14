@@ -45,9 +45,9 @@ public class Order {
     @Embedded
     private PaymentDetails paymentDetails = new PaymentDetails();
 
-    private double totalMrpPrice;
+    private Long totalMrpPrice;
 
-    private Double totalSellingPrice;
+    private Long totalSellingPrice;
 
     private Integer discount;
 

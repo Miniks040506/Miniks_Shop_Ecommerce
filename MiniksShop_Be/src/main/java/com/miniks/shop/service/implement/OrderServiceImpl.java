@@ -49,11 +49,11 @@ public class OrderServiceImpl implements OrderService {
             Long sellerId = entry.getKey();
             List<CartItem> items = entry.getValue();
 
-            double totalMrpPrice = items.stream().mapToDouble(
+            long totalMrpPrice = items.stream().mapToLong(
                     CartItem::getMrpPrice
             ).sum();
 
-            double totalOrderPrice = items.stream().mapToDouble(
+            long totalOrderPrice = items.stream().mapToLong(
                     CartItem::getSellingPrice
             ).sum();
 
@@ -111,14 +111,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Order> userOrderHistory(Long userId) {
+    public List<Order> findUserOrderHistory(Long userId) {
 
         return orderRepository.findByUserId(userId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Order> sellersOrder(Long sellerId) {
+    public List<Order> getSellerOrders(Long sellerId) {
 
         return orderRepository.findBySellerId(sellerId);
     }
@@ -147,15 +147,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderRepository.save(order);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public OrderItem findById(Long id) throws Exception {
-
-        return orderItemRepository.findById(id)
-                .orElseThrow(() ->
-                        new Exception("Order item is not existed..."));
     }
 
 }

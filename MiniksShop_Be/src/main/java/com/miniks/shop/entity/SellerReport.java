@@ -21,15 +21,15 @@ public class SellerReport {
     @JoinColumn(name = "seller_id", nullable = false, unique = true)
     private Seller seller;
 
-    private Double totalEarnings = 0.0;
+    private Long totalEarnings = 0L;
 
     private Long totalSales = 0L;
 
-    private Double totalRefunds = 0.0;
+    private Long totalRefunds = 0L;
 
     private Long totalTax = 0L;
 
-    private Double netEarnings = 0.0;
+    private Long netEarnings = 0L;
 
     private Integer totalOrders = 0;
 

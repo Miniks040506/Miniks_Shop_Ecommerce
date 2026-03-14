@@ -31,9 +31,9 @@ public class CartItem {
 
     private int quantity = 1;
 
-    private  Double mrpPrice;
+    private  Long mrpPrice;
 
-    private Double sellingPrice;
+    private Long sellingPrice;
 
     private Long userId;
 

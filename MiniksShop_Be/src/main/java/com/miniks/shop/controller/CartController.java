@@ -27,7 +27,7 @@ public class CartController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Cart> findUserCartHandler(
+    public ResponseEntity<Cart> getUserCartHandler(
             @RequestHeader("Authorization") String jwtToken) throws Exception {
 
         User user = userService.findUserByJwtToken(jwtToken);
