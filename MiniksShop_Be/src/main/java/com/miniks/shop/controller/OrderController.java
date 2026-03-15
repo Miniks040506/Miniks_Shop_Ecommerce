@@ -57,11 +57,20 @@ public class OrderController {
             String paymentLinkId = paymentLink.get("id");
 
             response.setPaymentLinkUrl(paymentLinkUrl);
-            response.setPaymentLinkId(paymentLinkId);
+//            response.setPaymentLinkId(paymentLinkId);
 
             paymentOrder.setPaymentLinkId(paymentLinkId);
 
             paymentOrderRepository.save(paymentOrder);
+
+        } else {
+            String paymentLinkUrl = paymentService.createStripePaymentLink(
+                    user,
+                    paymentOrder.getAmount(),
+                    paymentOrder.getId()
+            );
+
+            response.setPaymentLinkUrl(paymentLinkUrl);
         }
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

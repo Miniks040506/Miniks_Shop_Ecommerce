@@ -12,6 +12,10 @@ import com.razorpay.Payment;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.jspecify.annotations.NonNull;
@@ -28,6 +32,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private String apiKey = "apiKey";
     private String apiSecret = "apiSecret";
+    private String stripeSecretKey = "stripeSecretKey";
 
     @Override
     public PaymentOrder createOrder(User user, Set<Order> orders) {
@@ -120,6 +125,37 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RazorpayException(e.getMessage());
         }
 
+    }
+
+    @Override
+    public String createStripePaymentLink(User user, Long amount, Long orderId) throws StripeException {
+
+        Stripe.apiKey = stripeSecretKey;
+
+        SessionCreateParams params = SessionCreateParams.builder()
+                .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl("http://localhost:3000/payment-success/" + orderId)
+                .setCancelUrl("http://localhost:3000/payment-cancel")
+                .addLineItem(
+                        SessionCreateParams.LineItem.builder()
+                                .setQuantity(1L)
+                                .setPriceData(
+                                        SessionCreateParams.LineItem.PriceData.builder()
+                                                .setCurrency("usd")
+                                                .setUnitAmount(amount * 100)
+                                                .setProductData(
+                                                        SessionCreateParams.LineItem.PriceData
+                                                                .ProductData.builder()
+                                                                .setName("Miniks Shop payment gate")
+                                                                .build()
+                                                ).build()
+                                ).build()
+                ).build();
+
+        Session session = Session.create(params);
+
+        return session.getUrl();
     }
 
     private static @NonNull JSONObject getJsonObject(User user, Long amount, Long orderId) {
