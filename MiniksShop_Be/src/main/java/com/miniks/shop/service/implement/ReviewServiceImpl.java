@@ -19,21 +19,58 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review createReview(CreateReviewRequest request, User user, Product product) {
-        return null;
+
+        Review review = new Review();
+
+        review.setUser(user);
+        review.setProduct(product);
+        review.setReviewText(request.getReviewText());
+        review.setRating(request.getReviewRating());
+        review.setProductImages(request.getProductImages());
+
+        product.getReviews().add(review);
+
+        return reviewRepository.save(review);
     }
 
     @Override
     public List<Review> getReviewsByProductId(Long productId) {
-        return List.of();
+
+        return reviewRepository.findByProductId(productId);
     }
 
     @Override
-    public Review updateReview(Long reviewId, String reviewText, double reviewRating, Long userId) {
-        return null;
+    public Review updateReview(Long reviewId, String reviewText,
+                               double reviewRating, Long userId) throws Exception {
+
+        Review review = getReviewById(reviewId);
+
+        if (review.getUser().getId().equals(userId)) {
+            review.setReviewText(reviewText);
+            review.setRating(reviewRating);
+            return reviewRepository.save(review);
+        }
+
+        throw new Exception("You can't update this review");
     }
 
     @Override
-    public void deleteReview(Long reviewId, Long userId) {
+    public void deleteReview(Long reviewId, Long userId) throws Exception {
 
+        Review review = getReviewById(reviewId);
+
+        if (!review.getUser().getId().equals(userId)) {
+            throw new Exception("You can't delete this review");
+        }
+
+        reviewRepository.delete(review);
+    }
+
+    @Override
+    public Review getReviewById(Long reviewId) throws Exception {
+
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() ->
+                        new Exception("Review not found"));
     }
 }

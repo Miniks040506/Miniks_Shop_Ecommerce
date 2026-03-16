@@ -18,10 +18,12 @@ public interface ReviewService {
     List<Review> getReviewsByProductId(Long productId);
 
     Review updateReview(Long reviewId, String reviewText,
-                        double reviewRating, Long userId);
+                        double reviewRating, Long userId) throws Exception;
 
 //    Review updateReview(Long reviewId, CreateReviewRequest request, Long userId);
 
-    void deleteReview(Long reviewId, Long userId);
+    void deleteReview(Long reviewId, Long userId) throws Exception;
+
+    Review getReviewById(Long reviewId) throws Exception;
 
 }

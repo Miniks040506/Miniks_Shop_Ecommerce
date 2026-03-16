@@ -98,7 +98,7 @@ public class CartServiceImpl implements CartService {
         double discount = mrpPrice - sellingPrice;
         double discountPercentage = (discount / mrpPrice) * 100;
 
-        return (int) discountPercentage;
+        return (int) Math.round(discountPercentage);
     }
 
 }
