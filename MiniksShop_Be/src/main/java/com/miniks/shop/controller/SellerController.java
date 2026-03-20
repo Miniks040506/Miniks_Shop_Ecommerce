@@ -87,7 +87,7 @@ public class SellerController {
 
         String subject = "Miniks Shop Email verification code";
         String text = "Welcome to Miniks Shop, verify your account using this link ";
-        String frontend_url = "http://localhost:3000/verify-seller/";
+        String frontend_url = "http://localhost:5173/verify-seller/";
 
         emailService.sendVerificationOtpEmail(seller.getEmail(),
                 verificationCode.getOtp(), subject, text + frontend_url);
