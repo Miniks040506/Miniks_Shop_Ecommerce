@@ -10,18 +10,20 @@ const Home = () => {
   return (
     <>
         <div className='space-y-5 lg:space-y-10 relative pb-20'>
+            
             <ElectricCategory />
+            
             <CategoryGrid />
             
             <section className='pt-20'>
-                <h1 className='text-lg lg:text-4xl font-bold text-primary-green pb-5 lg:pb-10 text-center'>
+                <h1 className='text-lg lg:text-4xl font-bold text-primary_green pb-5 lg:pb-10 text-center'>
                     TODAY'S DEALS
                 </h1>
                 <Deal />
             </section>
             
             <section className='pt-20'>
-                <h1 className='text-lg lg:text-4xl font-bold text-primary-green pb-5 lg:pb-10 text-center'>
+                <h1 className='text-lg lg:text-4xl font-bold text-primary_green pb-5 lg:pb-10 text-center'>
                     SHOP BY CATEGORY
                 </h1>
                 <ShopByCategory />

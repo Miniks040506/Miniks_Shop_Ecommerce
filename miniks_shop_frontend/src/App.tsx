@@ -3,7 +3,10 @@ import './App.css';
 import Narbar from './customer/components/narbar/Narbar';
 import customTheme from './theme/CustomTheme';
 import Home from './customer/pages/home/Home';
-import Product from './customer/pages/Product/Product';
+import Product from './customer/pages/product/Product';
+import ProductDetails from './customer/pages/page_details/ProductDetails';
+import Review from './customer/pages/review/Review';
+import Cart from './customer/pages/cart/Cart';
 
 
 function App() {
@@ -13,7 +16,10 @@ function App() {
             <ThemeProvider theme={customTheme}>
                 <Narbar />
                 {/* <Home /> */}
-                <Product />
+                {/* <Product /> */}
+                {/* <ProductDetails /> */}
+                {/* <Review /> */}
+                <Cart />
             </ThemeProvider>
         
         </div>
