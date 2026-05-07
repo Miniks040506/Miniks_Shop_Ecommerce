@@ -7,5 +7,6 @@ public enum PaymentMethod {
     BANK_TRANSFER,
     PAYOS,
     CASH_ON_DELIVERY,
-    RAZORPAY
+    RAZORPAY,
+    STRIPE
 }

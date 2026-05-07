@@ -20,13 +20,13 @@ public class Address {
 
     private String name;
 
-    private String locality;
+    private String locality; //town
 
     private String address;
 
-    private String city;
+    private String city; //district
 
-    private String state;
+    private String state; //province
 
     @Column(name = "pin_code")
     private String pinCode;
